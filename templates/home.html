@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Explore Feed{% endblock %}
+
+{% block content %}
+<div class="feed-layout">
+    
+    <!-- Left Column: Questions Feed -->
+    <div class="feed-main">
+        <h2 style="margin-bottom: 20px;">Latest Questions</h2>
+        
+        {% if questions %}
+            {% for q in questions %}
+                <div class="card">
+                    <!-- Metadata Header -->
+                    <div class="card-meta">
+                        <span>Asked by <a href="{{ url_for('profile', user_id=q.user_id) }}" class="card-author">{{ q.username }}</a></span>
+                        <span>{{ q.created_at.strftime('%b %d, %Y at %I:%M %p') if q.created_at else 'Unknown date' }}</span>
+                    </div>
+                    
+                    <!-- Title -->
+                    <h3 class="card-title">
+                        <a href="{{ url_for('question_detail', question_id=q.id) }}">{{ q.title }}</a>
+                    </h3>
+                    
+                    <!-- Description Snippet (truncate for nice feed sizing) -->
+                    <p class="card-description">
+                        {{ q.description | truncate(180, true, '...') }}
+                    </p>
+                    
+                    <!-- Footer Actions -->
+                    <div class="card-footer">
+                        <span class="answers-count">
+                            {{ q.answer_count }} {{ 'Answer' if q.answer_count == 1 else 'Answers' }}
+                        </span>
+                        
+                        <a href="{{ url_for('question_detail', question_id=q.id) }}" class="btn-inline">
+                            View Thread &rarr;
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <!-- Fallback empty feed state -->
+            <div class="no-posts-message">
+                <h3>No questions have been asked yet.</h3>
+                <p>Be the first to spark a conversation! Click "Ask Question" to publish yours.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Right Column: Sidebar -->
+    <div class="feed-sidebar">
+        <div class="sidebar-card">
+            <h3>Welcome to AskHub</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">
+                A place to share knowledge and better understand the world. Log in to post queries or write helpful answers.
+            </p>
+            <ul class="sidebar-stats">
+                <li>
+                    <span>Total Questions</span>
+                    <span>{{ stats.total_questions }}</span>
+                </li>
+                <li>
+                    <span>Total Answers</span>
+                    <span>{{ stats.total_answers }}</span>
+                </li>
+                <li>
+                    <span>Registered Members</span>
+                    <span>{{ stats.total_users }}</span>
+                </li>
+            </ul>
+            
+            {% if not session.get('user_id') %}
+                <div style="margin-top: 20px; text-align: center;">
+                    <a href="{{ url_for('signup') }}" class="btn-block" style="display: block; text-align: center; text-decoration: none;">Get Started</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

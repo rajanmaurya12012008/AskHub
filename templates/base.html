@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AskHub{% endblock %} - Q&A Platform</title>
+    
+    <!-- Link to custom stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container nav-bar">
+            <a href="{{ url_for('home') }}" class="logo">AskHub</a>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    
+                    {% if session.get('user_id') %}
+                        <!-- Access links visible only to logged-in users -->
+                        <li><a href="{{ url_for('profile', user_id=session['user_id']) }}" class="nav-user">
+                            Profile <span class="user-tag">{{ session.get('username') }}</span>
+                        </a></li>
+                        <li><a href="{{ url_for('ask') }}" class="btn-ask">Ask Question</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                        <!-- Links visible to guests -->
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('signup') }}" class="btn-ask">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Display Flash Messages (Success / Error notifications) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            <span>{{ message }}</span>
+                            <button class="flash-close">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Page Content injection -->
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer Segment -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 AskHub Platform. Inspired by Quora.</p>
+            <p>Designed with ❤️ for learning web development.</p>
+        </div>
+    </footer>
+
+    <!-- Link to Javascript behaviors -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

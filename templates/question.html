@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% block content %}
+<div class="feed-layout">
+    
+    <!-- Left Column: Question Details & Answers -->
+    <div class="feed-main animate-fade">
+        
+        <!-- The Main Question Card -->
+        <div class="detail-question-card">
+            <!-- Metadata Header -->
+            <div class="card-meta">
+                <span>Asked by <a href="{{ url_for('profile', user_id=question.user_id) }}" class="card-author" style="font-weight: 700;">{{ question.username }}</a></span>
+                <span>{{ question.created_at.strftime('%b %d, %Y at %I:%M %p') if question.created_at else 'Unknown date' }}</span>
+            </div>
+            
+            <!-- Question Title -->
+            <h1 style="font-size: 2rem; margin-bottom: 20px; line-height: 1.3;">{{ question.title }}</h1>
+            
+            <!-- Question Description -->
+            <p style="white-space: pre-line; color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 20px; word-break: break-word;">
+                {{ question.description }}
+            </p>
+        </div>
+
+        <!-- Answers Count Header -->
+        <h2 class="answers-section-title">
+            {{ answers|length }} {{ 'Answer' if answers|length == 1 else 'Answers' }}
+        </h2>
+
+        <!-- Answers List -->
+        {% if answers %}
+            {% for a in answers %}
+                <div class="answer-card">
+                    <div class="answer-meta">
+                        <span>Answered by <a href="{{ url_for('profile', user_id=a.user_id) }}" class="answer-author">{{ a.username }}</a></span>
+                        <span>&bull;</span>
+                        <span>{{ a.created_at.strftime('%b %d, %Y at %I:%M %p') if a.created_at else 'Unknown date' }}</span>
+                    </div>
+                    <div class="answer-content">
+                        <p style="white-space: pre-line;">{{ a.content }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-posts-message" style="margin-bottom: 30px;">
+                <h3>No answers yet</h3>
+                <p>Do you know the answer? Share your perspective and help the community!</p>
+            </div>
+        {% endif %}
+
+        <!-- Answer Form Panel -->
+        <div class="write-answer-section">
+            <h3>Your Answer</h3>
+            {% if session.get('user_id') %}
+                <form action="{{ url_for('submit_answer', question_id=question.id) }}" method="POST" id="answerForm">
+                    <div class="form-group">
+                        <textarea name="content" id="content" class="form-control" placeholder="Write your helpful response here..." required minlength="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn-block" style="width: auto; padding: 10px 24px;">Post Answer</button>
+                </form>
+            {% else %}
+                <p style="color: var(--text-muted); font-size: 0.95rem;">
+                    You must be <a href="{{ url_for('login') }}" style="color: var(--color-indigo); font-weight: bold;">logged in</a> to write an answer.
+                </p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- Right Column: Sidebar (Quick Links/Back to home) -->
+    <div class="feed-sidebar">
+        <div class="sidebar-card">
+            <h3>Thread Info</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
+                This thread discusses: "{{ question.title | truncate(60) }}"
+            </p>
+            <a href="{{ url_for('home') }}" class="btn-block" style="display: block; text-align: center; text-decoration: none; padding: 10px;">
+                &larr; Back to Feed
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

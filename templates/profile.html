@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="profile-card">
+    <!-- Styled Profile Banner Mockup -->
+    <div class="profile-banner"></div>
+    
+    <!-- User Info Header -->
+    <div class="profile-info">
+        <div class="profile-avatar">
+            {{ user.username[0] | uppercase if user.username else 'U' }}
+        </div>
+        <div class="profile-details">
+            <h2>{{ user.username }}</h2>
+            <p>Member since: {{ user.created_at.strftime('%B %Y') if user.created_at else 'N/A' }}</p>
+            <p style="font-size: 0.85rem; margin-top: 4px;">Email: {{ user.email }}</p>
+        </div>
+    </div>
+    
+    <!-- Quick Analytics Stats Row -->
+    <div class="profile-stats">
+        <div class="stat-item">
+            <div class="stat-num">{{ questions | length }}</div>
+            <div class="stat-lbl">Questions</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">{{ answers | length }}</div>
+            <div class="stat-lbl">Answers</div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Navigation buttons -->
+<div class="profile-tabs">
+    <button class="tab-btn active" data-target="questions">Questions Asked ({{ questions | length }})</button>
+    <button class="tab-btn" data-target="answers">Answers Given ({{ answers | length }})</button>
+</div>
+
+<!-- Tab 1: User's Questions -->
+<div id="my-questions" class="profile-feed">
+    {% if questions %}
+        {% for q in questions %}
+            <div class="card">
+                <div class="card-meta">
+                    <span>Asked on {{ q.created_at.strftime('%b %d, %Y') if q.created_at else 'Unknown date' }}</span>
+                </div>
+                <h3 class="card-title">
+                    <a href="{{ url_for('question_detail', question_id=q.id) }}">{{ q.title }}</a>
+                </h3>
+                <p class="card-description">
+                    {{ q.description | truncate(150, true, '...') }}
+                </p>
+                <div class="card-footer">
+                    <span class="answers-count">
+                        {{ q.answer_count }} {{ 'Answer' if q.answer_count == 1 else 'Answers' }}
+                    </span>
+                    <a href="{{ url_for('question_detail', question_id=q.id) }}" class="btn-inline">View Thread &rarr;</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-posts-message">
+            <h3>No questions posted yet.</h3>
+            <p>Any questions asked by this account will appear here.</p>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Tab 2: User's Answers (Hidden by default, shown by JS) -->
+<div id="my-answers" class="profile-feed" style="display: none;">
+    {% if answers %}
+        {% for a in answers %}
+            <div class="card">
+                <div class="card-meta">
+                    <span>Answered on {{ a.created_at.strftime('%b %d, %Y') if a.created_at else 'Unknown date' }}</span>
+                    <span>&bull;</span>
+                    <span>Question: <a href="{{ url_for('question_detail', question_id=a.question_id) }}" style="color: var(--color-indigo); font-weight: 600;">{{ a.question_title | truncate(40) }}</a></span>
+                </div>
+                <p class="card-description" style="color: var(--text-primary); font-size: 0.95rem;">
+                    {{ a.content }}
+                </p>
+                <div class="card-footer" style="padding-top: 10px;">
+                    <a href="{{ url_for('question_detail', question_id=a.question_id) }}" class="btn-inline">Go to full conversation &rarr;</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-posts-message">
+            <h3>No answers posted yet.</h3>
+            <p>Every answer submitted by this account will appear here.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

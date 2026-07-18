@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Join AskHub{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h2>Create an Account</h2>
+        <p>Join the AskHub community to start asking and answering questions.</p>
+    </div>
+
+    <!-- Signup Form -->
+    <form action="{{ url_for('signup') }}" method="POST" id="signupForm">
+        <!-- Username input -->
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="e.g., student_coder" required minlength="3" maxlength="50">
+        </div>
+
+        <!-- Email input -->
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="e.g., mail@example.com" required>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="At least 6 characters" required>
+        </div>
+
+        <!-- Confirm Password input -->
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Repeat your password" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-block">Sign Up</button>
+    </form>
+
+    <div class="form-footer">
+        Already have an account? <a href="{{ url_for('login') }}">Log In</a>
+    </div>
+</div>
+{% endblock %}

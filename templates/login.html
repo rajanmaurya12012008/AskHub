@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Log In to AskHub{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h2>Welcome Back</h2>
+        <p>Log in with your username or email address to continue sharing knowledge.</p>
+    </div>
+
+    <!-- Login Form -->
+    <form action="{{ url_for('login') }}" method="POST" id="loginForm">
+        <!-- Credential Input (accepts Username or Email) -->
+        <div class="form-group">
+            <label for="credential">Username or Email</label>
+            <input type="text" name="credential" id="credential" class="form-control" placeholder="Enter username or email" required>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-block">Log In</button>
+    </form>
+
+    <div class="form-footer">
+        New to AskHub? <a href="{{ url_for('signup') }}">Create an account</a>
+    </div>
+</div>
+{% endblock %}
