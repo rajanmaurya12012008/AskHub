@@ -5,7 +5,6 @@ import bcrypt
 import os
 from datetime import datetime
 
-# Initialize the Flask application
 app = Flask(__name__)
 
 # Load configurations from config.py
