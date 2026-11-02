@@ -181,7 +181,7 @@ def login():
         return redirect(url_for('home'))
 
     if request.method == 'POST':
-        credential = request.form.get('credential', '').strip()
+        credential = request.form.get('Credential', '').strip()
         password = request.form.get('password', '')
 
         if not credential or not password:
