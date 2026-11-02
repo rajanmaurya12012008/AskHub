@@ -203,7 +203,7 @@ def login():
             session['username'] = user['username']
             session['email'] = user['email']
             
-            flash(f"Welcome back, {user['username']}!", "success")
+            flash(f"Welcome back, {user['username']}!", "Success")
             return redirect(url_for('home'))
         else:
             flash("Invalid username/email or password.", "danger")
