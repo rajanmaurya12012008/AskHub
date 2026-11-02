@@ -4,7 +4,7 @@ import pymysql
 import bcrypt
 import os
 from datetime import datetime
-
+r
 app = Flask(__name__)
 
 # Load configurations from config.py
@@ -32,7 +32,7 @@ def get_db():
             )
         except pymysql.MySQLError as e:
             # Helpful debugging message if database isn't running or credentials are wrong
-            print(f"Database Connection Error: {e}")
+            print(f"Database connection error: {e}")
             raise e
     return g.db
 
