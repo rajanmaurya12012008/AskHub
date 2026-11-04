@@ -185,7 +185,7 @@ def login():
         password = request.form.get('password', '')
 
         if not credential or not password:
-            flash("Both fields are required.", "danger")
+            flash("Both fields are required.", "danger!!")
             return render_template('login.html')
 
         db = get_db()
