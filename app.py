@@ -206,7 +206,7 @@ def login():
             flash(f"Welcome back, {user['username']}!", "Success")
             return redirect(url_for('home'))
         else:
-            flash("Invalid username/email or password.", "danger")
+            flash("Invalid Username/email or password.", "danger")
             return render_template('login.html')
 
     return render_template('login.html')
