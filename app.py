@@ -192,7 +192,7 @@ def login():
         cursor = db.cursor()
 
         # Find user by username OR email
-        find_query = "SELECT * FROM users WHERE username = %s OR email = %s"
+        find_query = "select * from users where username = %s OR email = %s"
         cursor.execute(find_query, (credential, credential))
         user = cursor.fetchone()
 
