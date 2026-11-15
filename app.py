@@ -122,7 +122,7 @@ def home():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     """
-    Sign Up handler. Performs duplicate checking, encodes password via bcrypt,
+    Sign Up Handler. Performs duplicate checking, encodes password via bcrypt,
     and creates new users in the database.
     """
     if 'user_id' in session:
