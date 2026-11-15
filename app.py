@@ -4,7 +4,6 @@ import pymysql
 import bcrypt
 import os
 from datetime import datetime
-r
 app = Flask(__name__)
 
 # Load configurations from config.py
