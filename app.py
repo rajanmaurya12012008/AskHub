@@ -80,7 +80,7 @@ def login_required(f):
 def home():
     """
     Home page feed. Pulls all questions (latest first) along with metrics 
-    like total answers and author's details to build feed and sidebar statistics.
+    like total answers and Author's details to build feed and sidebar statistics.
     """
     db = get_db()
     cursor = db.cursor()
