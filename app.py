@@ -31,7 +31,7 @@ def get_db():
             )
         except pymysql.MySQLError as e:
             # Helpful debugging message if database isn't running or credentials are wrong
-            print(f"Database connection error: {e}")
+            print(f"Database Connection Error: {e}")
             raise e
     return g.db
 
