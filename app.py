@@ -49,7 +49,7 @@ def close_db(error):
 # JINJA CUSTOM FILTERS & UTILS
 # -------------------------------------------------------------
 
-@app.template_filter('uppercase')
+@app.template_filter('Uppercase')
 def uppercase_filter(value):
     """Custom template filter to capitalize characters (e.g. for user initials)."""
     return value.upper() if value else ''
